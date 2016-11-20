@@ -352,8 +352,8 @@ void LibXCFunctional::compute_functional(const std::map<std::string,SharedVector
                 v_gamma_aa[i] += alpha_ * fv_sigma[3 * i];
                 v_gamma_ab[i] += alpha_ * fv_sigma[3 * i + 1];
                 v_gamma_bb[i] += alpha_ * fv_sigma[3 * i + 2];
-                v_tau_a[i] += alpha_ * fv_tau[2 * i];
-                v_tau_b[i] += alpha_ * fv_tau[2 * i + 1];
+                v_tau_a[i] += alpha_ * 0.5 * fv_tau[2 * i];
+                v_tau_b[i] += alpha_ * 0.5 * fv_tau[2 * i + 1];
                 // v_lapl_a[i] += alpha_ * fv_lapl[2 * i];
                 // v_lapl_b[i] += alpha_ * fv_lapl[2 * i + 1];
 
