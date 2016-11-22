@@ -59,6 +59,41 @@ def build_pbe0_superfunctional(name, npoints, deriv):
     sup.allocate()
     return (sup, False)
 
+def build_b5050lyp_superfunctional(name, npoints, deriv):
+    # Call this first
+    sup = core.SuperFunctional.blank()
+    sup.set_max_points(npoints)
+    sup.set_deriv(deriv)
+
+    # => User-Customization <= #
+
+    # No spaces, keep it short and according to convention
+    sup.set_name('B5050LYP')
+    # Tab in, trailing newlines
+    sup.set_description('    B5050LYP Hyb-GGA Exchange-Correlation Functional\n')
+    # Tab in, trailing newlines
+    sup.set_citation('    Y. Shao et. al., J. Chem. Phys., 188, 4807-4818, 2003\n')
+
+    # Add member functionals
+    slater = core.Functional.build_base("XC_LDA_X")
+    slater.set_alpha(0.08)
+    sup.add_x_functional(slater)
+    becke = core.Functional.build_base("XC_GGA_X_B88")
+    becke.set_alpha(0.42)
+    sup.add_x_functional(becke)
+    sup.set_x_alpha(0.50) 
+
+    vwn = core.Functional.build_base("XC_LDA_C_VWN") 
+    vwn.set_alpha(0.19)
+    sup.add_c_functional(vwn)
+    lyp = core.Functional.build_base("XC_GGA_C_LYP") 
+    lyp.set_alpha(0.81)
+    sup.add_c_functional(lyp)
+
+    # Call this last
+    sup.allocate()
+    return (sup, False)
+
 def build_wpbe_superfunctional(name, npoints, deriv):
 
     # Call this first
@@ -148,7 +183,6 @@ def build_wb97xd_superfunctional(name, npoints, deriv):
     sup.allocate()
     return (sup, ('wB97', '-CHG'))
 
-
 def build_hfd_superfunctional(name, npoints, deriv):
 
     sup = core.SuperFunctional.blank()
@@ -176,6 +210,7 @@ hyb_superfunc_list = {
           "pbe0"    : build_pbe0_superfunctional,
           "wpbe"    : build_wpbe_superfunctional,
           "wpbe0"   : build_wpbe0_superfunctional,
+          "b5050lyp"    : build_b5050lyp_superfunctional,
           "wb97x-d" : build_wb97xd_superfunctional,
           "hf-d"    : build_hfd_superfunctional,
           "hf"      : build_hf_superfunctional,
